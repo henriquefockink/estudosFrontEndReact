@@ -26,13 +26,21 @@ function App() {
    },
    []);
 
-    function handleAddProject(){
+    async function handleAddProject(){
         //Por conta da imutabilidade, não devemos usar o método push
         //projects.push(`Novo projeto ${Date.now()}`);
 
         /** Usamos o spread operator ("...") para copiar todos os dados do array 
          * para dentro de um novo array com a informação nova */
-        setProjects([...projects, `Novo projeto ${Date.now()}`]);
+        // setProjects([...projects, `Novo projeto ${Date.now()}`]);
+        const response = await api.post('projects', {
+            title: `Novo projeto ${Date.now()}`,
+            owner: "Henrique Fockink"
+        });
+
+        const project = response.data;
+
+        setProjects([...projects, project]);
         console.log(projects);
     }
     /**As tags "vazias" são fragments. Fragments são necessário quando 
